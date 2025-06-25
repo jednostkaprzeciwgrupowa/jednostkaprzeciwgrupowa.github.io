@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jednostka Przeciw Grupowa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #b91c1c;
+      color: #fff;
+    }
+
+    #preloader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #7f1d1d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 1s ease;
+    }
+
+    #preloader img {
+      width: 300px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    #preloader.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    header {
+      background: linear-gradient(to right, #991b1b, #b91c1c);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: #7f1d1d;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero a.button {
+      background: #b91c1c;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      box-shadow: 0 0 10px #f87171;
+    }
+
+    .hero a.button:hover {
+      background: #7f1d1d;
+    }
+
+    .video-section {
+      padding: 3rem 2rem;
+      text-align: center;
+      background: #6b1212;
+    }
+
+    .video-section iframe {
+      width: 90vw;
+      max-width: 1200px;
+      height: 500px;
+      border: none;
+      border-radius: 12px;
+    }
+
+    .rekrutacja-section {
+      background: #991b1b;
+      padding: 3rem 2rem;
+      max-width: 700px;
+      margin: 3rem auto;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #7f1d1d;
+    }
+
+    .rekrutacja-section h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .rekrutacja-section form label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 700;
+    }
+
+    .rekrutacja-section form input[type="text"],
+    .rekrutacja-section form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1.3rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Rubik', sans-serif;
+    }
+
+    .rekrutacja-section form textarea {
+      resize: vertical;
+    }
+
+    .rekrutacja-section .legal {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .rekrutacja-section .legal input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+
+    .rekrutacja-section .legal a {
+      color: #f87171;
+      text-decoration: underline;
+    }
+
+    .rekrutacja-section form button[type="submit"] {
+      background: #b91c1c;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 10px #f87171;
+      transition: background 0.3s ease;
+      width: 100%;
+      font-size: 1.2rem;
+    }
+
+    .rekrutacja-section form button[type="submit"]:hover {
+      background: #7f1d1d;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #4c0f0f;
+      color: #fca5a5;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <img src="ikonka.jpg" alt="Ładowanie..." />
+  </div>
+
+  <header>
+    <h1>Jednostka Przeciw Grupowa</h1>
+    <nav>
+      <a href="index.html">Strona Główna</a>
+      <a href="onas.html">O nas</a>
+      <a href="terms.html">Zasady i warunki</a>
+      <a href="anonimowe.html">Anonimowe wiadomości</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>🚨 Wbijaj na nasz kanał! 🚨</h2>
+    <p>🔥 Naszą misją jest rozwalanie kanałów WhatsApp! 💥📵</p>
+    <a href="https://whatsapp.com/channel/0029VbAbfCwId7nH2mySZj3l" class="button" target="_blank" rel="noopener noreferrer">👉 Zobacz nas na WhatsApp 💬</a>
+  </section>
+
+  <section class="video-section">
+    <h2>Zobacz, co robimy</h2>
+    <iframe src="Wideo.mov" allowfullscreen></iframe>
+  </section>
+
+  <section class="rekrutacja-section">
+    <h2>Zgłoś się do Jednostki</h2>
+    <form id="rekrutacjaForm">
+      <label for="name">Twoje imię lub nick:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="contact">Jak się z Tobą skontaktować? (np. Discord, tel.):</label>
+      <input type="text" id="contact" name="contact" required>
+
+      <label for="reason">Dlaczego chcesz dołączyć do Jednostki Przeciwgrupowej?</label>
+      <textarea id="reason" name="reason" rows="4" required></textarea>
+
+      <label for="description">Co jeszcze powinniśmy o Tobie wiedzieć?</label>
+      <textarea id="description" name="description" rows="3"></textarea>
+
+      <div class="legal">
+        <input type="checkbox" id="zgoda" name="zgoda" required>
+        <label for="zgoda">Wyrażam zgodę na przetwarzanie danych zgodnie z <a href="terms.html">regulaminem</a>.</label>
+      </div>
+
+      <button type="submit">Wyślij zgłoszenie</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Jednostka Przeciw Grupowa. Wszelkie prawa zastrzeżone.
+  </footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      setTimeout(() => {
+        preloader.classList.add("fade-out");
+      }, 1500);
+    });
+  </script>
+
+  <script>
+    document.getElementById("rekrutacjaForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: e.target.name.value.trim(),
+        contact: e.target.contact.value.trim(),
+        reason: e.target.reason.value.trim(),
+        description: e.target.description.value.trim(),
+        zgoda: e.target.zgoda.checked,
+      };
+
+      if (!data.zgoda) {
+        alert("Musisz wyrazić zgodę na przetwarzanie danych.");
+        return;
+      }
+
+      const message = {
+        content: "**Nowe zgłoszenie do Jednostki Przeciw Grupowej**\n" +
+                 `**Nick:** ${data.name}\n` +
+                 `**Kontakt:** ${data.contact}\n` +
+                 `**Dlaczego chce dołączyć:** ${data.reason}\n` +
+                 `**Dodatkowe info:** ${data.description || "Brak"}`
+      };
+
+      try {
+        const res = await fetch("YOUR_DISCORD_WEBHOOK_URL", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(message)
+        });
+
+        if (res.ok) {
+          alert("Dziękujemy! Twoje zgłoszenie zostało wysłane.");
+          e.target.reset();
+        } else {
+          alert("Błąd podczas wysyłania zgłoszenia.");
+        }
+      } catch (err) {
+        alert("Wystąpił błąd sieci. Spróbuj ponownie.");
+      }
+    });
+  </script>
+
+</body>
+</html>
