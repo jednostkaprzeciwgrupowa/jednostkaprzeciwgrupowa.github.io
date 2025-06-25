@@ -193,10 +193,11 @@
   <header>
     <h1>Jednostka Przeciw Grupowa</h1>
     <nav>
-      <a href="index.html">Strona Główna</a>
+     <a href="index.html">Strona Główna</a>
       <a href="onas.html">O nas</a>
       <a href="terms.html">Zasady i warunki</a>
-      <a href="anonimowe.html">Anonimowe wiadomości</a>
+<a href="anonimowe.html">Anonimowe wiadomości</a>
+<a href="rekrutacja.html">Rekrutacja</a>
     </nav>
   </header>
 
@@ -248,51 +249,59 @@
     });
   </script>
 
-  <script>
-    document.getElementById("rekrutacjaForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+<script>
+  document.getElementById("rekrutacjaForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      const data = {
-        name: e.target.name.value.trim(),
-        contact: e.target.contact.value.trim(),
-        reason: e.target.reason.value.trim(),
-        description: e.target.description.value.trim(),
-        zgoda: e.target.zgoda.checked,
-      };
+    const data = {
+      name: e.target.name.value.trim(),
+      contact: e.target.contact.value.trim(),
+      reason: e.target.reason.value.trim(),
+      description: e.target.description.value.trim(),
+      zgoda: e.target.zgoda.checked,
+    };
 
-      if (!data.zgoda) {
-        alert("Musisz wyrazić zgodę na przetwarzanie danych.");
-        return;
-      }
+    if (!data.zgoda) {
+      alert("Musisz wyrazić zgodę na przetwarzanie danych.");
+      return;
+    }
+
+    try {
+      // Pobierz IP użytkownika
+      const ipResponse = await fetch("https://api.ipify.org?format=json");
+      const ipData = await ipResponse.json();
+      const ip = ipData.ip || "Nieznane";
 
       const message = {
         content: "**Nowe zgłoszenie do Jednostki Przeciw Grupowej**\n" +
                  `**Nick:** ${data.name}\n` +
                  `**Kontakt:** ${data.contact}\n` +
                  `**Dlaczego chce dołączyć:** ${data.reason}\n` +
-                 `**Dodatkowe info:** ${data.description || "Brak"}`
+                 `**Dodatkowe info:** ${data.description || "Brak"}\n` +
+                 `**IP:** ${ip}`
       };
 
-      try {
-        const res = await fetch("YOUR_DISCORD_WEBHOOK_URL", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(message)
-        });
+      const res = await fetch("https://discord.com/api/webhooks/1364968146343165952/c_29V49bQ2SgvRhpPuif5DsHdbdi1KqgZYPcClVesgBdxOJQxUvuEsWTMpBkOX9bc5DE", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(message)
+      });
 
-        if (res.ok) {
-          alert("Dziękujemy! Twoje zgłoszenie zostało wysłane.");
-          e.target.reset();
-        } else {
-          alert("Błąd podczas wysyłania zgłoszenia.");
-        }
-      } catch (err) {
-        alert("Wystąpił błąd sieci. Spróbuj ponownie.");
+      if (res.ok) {
+        alert("Dziękujemy! Twoje zgłoszenie zostało wysłane.");
+        e.target.reset();
+      } else {
+        alert("Błąd podczas wysyłania zgłoszenia.");
       }
-    });
-  </script>
+    } catch (err) {
+      alert("Błąd połączenia. Spróbuj ponownie później.");
+      console.error(err);
+    }
+  });
+</script>
+
 
 </body>
 </html>
