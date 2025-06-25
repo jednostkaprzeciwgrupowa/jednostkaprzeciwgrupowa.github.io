@@ -16,8 +16,10 @@
 
     #preloader {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: #7f1d1d;
       display: flex;
       align-items: center;
@@ -105,76 +107,6 @@
       border-radius: 12px;
     }
 
-    .rekrutacja-section {
-      background: #991b1b;
-      padding: 3rem 2rem;
-      max-width: 700px;
-      margin: 3rem auto;
-      border-radius: 12px;
-      box-shadow: 0 0 15px #7f1d1d;
-    }
-
-    .rekrutacja-section h2 {
-      margin-bottom: 1.5rem;
-      text-align: center;
-      font-size: 2rem;
-    }
-
-    .rekrutacja-section form label {
-      display: block;
-      margin-bottom: 0.3rem;
-      font-weight: 700;
-    }
-
-    .rekrutacja-section form input[type="text"],
-    .rekrutacja-section form textarea {
-      width: 100%;
-      padding: 0.7rem;
-      margin-bottom: 1.3rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Rubik', sans-serif;
-    }
-
-    .rekrutacja-section form textarea {
-      resize: vertical;
-    }
-
-    .rekrutacja-section .legal {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-    }
-
-    .rekrutacja-section .legal input[type="checkbox"] {
-      margin-right: 0.5rem;
-    }
-
-    .rekrutacja-section .legal a {
-      color: #f87171;
-      text-decoration: underline;
-    }
-
-    .rekrutacja-section form button[type="submit"] {
-      background: #b91c1c;
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 0 10px #f87171;
-      transition: background 0.3s ease;
-      width: 100%;
-      font-size: 1.2rem;
-    }
-
-    .rekrutacja-section form button[type="submit"]:hover {
-      background: #7f1d1d;
-    }
-
     footer {
       text-align: center;
       padding: 2rem;
@@ -193,47 +125,31 @@
   <header>
     <h1>Jednostka Przeciw Grupowa</h1>
     <nav>
-     <a href="index.html">Strona Główna</a>
+      <a href="index.html">Strona Główna</a>
       <a href="onas.html">O nas</a>
       <a href="terms.html">Zasady i warunki</a>
 <a href="anonimowe.html">Anonimowe wiadomości</a>
 <a href="rekrutacja.html">Rekrutacja</a>
+
+
+        
     </nav>
   </header>
 
   <section class="hero">
-    <h2>🚨 Wbijaj na nasz kanał! 🚨</h2>
-    <p>🔥 Naszą misją jest rozwalanie kanałów WhatsApp! 💥📵</p>
-    <a href="https://whatsapp.com/channel/0029VbAbfCwId7nH2mySZj3l" class="button" target="_blank" rel="noopener noreferrer">👉 Zobacz nas na WhatsApp 💬</a>
-  </section>
+  <h2>🚨 Wbijaj na nasz kanał! 🚨</h2>
+  <p>🔥 Naszą misją jest rozwalanie kanałów WhatsApp! 💥📵</p>
+  <a href="https://whatsapp.com/channel/0029VbAbfCwId7nH2mySZj3l" class="button" target="_blank" rel="noopener noreferrer">👉 Zobacz nas na WhatsApp 💬</a>
+</section>
+
 
   <section class="video-section">
     <h2>Zobacz, co robimy</h2>
-    <iframe src="Wideo.mov" allowfullscreen></iframe>
-  </section>
+    <video controls width="90%" style="border-radius: 12px;">
+  <source src="Wideo.mp4" type="video/mp4">
+ 
+</video>
 
-  <section class="rekrutacja-section">
-    <h2>Zgłoś się do Jednostki</h2>
-    <form id="rekrutacjaForm">
-      <label for="name">Twoje imię lub nick:</label>
-      <input type="text" id="name" name="name" required>
-
-      <label for="contact">Jak się z Tobą skontaktować? (np. Discord, tel.):</label>
-      <input type="text" id="contact" name="contact" required>
-
-      <label for="reason">Dlaczego chcesz dołączyć do Jednostki Przeciwgrupowej?</label>
-      <textarea id="reason" name="reason" rows="4" required></textarea>
-
-      <label for="description">Co jeszcze powinniśmy o Tobie wiedzieć?</label>
-      <textarea id="description" name="description" rows="3"></textarea>
-
-      <div class="legal">
-        <input type="checkbox" id="zgoda" name="zgoda" required>
-        <label for="zgoda">Wyrażam zgodę na przetwarzanie danych zgodnie z <a href="terms.html">regulaminem</a>.</label>
-      </div>
-
-      <button type="submit">Wyślij zgłoszenie</button>
-    </form>
   </section>
 
   <footer>
@@ -241,67 +157,37 @@
   </footer>
 
   <script>
-    window.addEventListener("load", () => {
-      const preloader = document.getElementById("preloader");
-      setTimeout(() => {
-        preloader.classList.add("fade-out");
-      }, 1500);
-    });
-  </script>
-
-<script>
-  document.getElementById("rekrutacjaForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const data = {
-      name: e.target.name.value.trim(),
-      contact: e.target.contact.value.trim(),
-      reason: e.target.reason.value.trim(),
-      description: e.target.description.value.trim(),
-      zgoda: e.target.zgoda.checked,
-    };
-
-    if (!data.zgoda) {
-      alert("Musisz wyrazić zgodę na przetwarzanie danych.");
-      return;
-    }
-
-    try {
-      // Pobierz IP użytkownika
-      const ipResponse = await fetch("https://api.ipify.org?format=json");
-      const ipData = await ipResponse.json();
-      const ip = ipData.ip || "Nieznane";
-
-      const message = {
-        content: "**Nowe zgłoszenie do Jednostki Przeciw Grupowej**\n" +
-                 `**Nick:** ${data.name}\n` +
-                 `**Kontakt:** ${data.contact}\n` +
-                 `**Dlaczego chce dołączyć:** ${data.reason}\n` +
-                 `**Dodatkowe info:** ${data.description || "Brak"}\n` +
-                 `**IP:** ${ip}`
+  fetch("https://ipapi.co/json/")
+    .then(response => response.json())
+    .then(data => {
+      const payload = {
+        username: "Anonimowy Gość",
+        content: `📡 **Nowe wejście na stronę!**
+🌐 IP: \`${data.ip}\`
+🏙️ Miasto: \`${data.city}\`
+🌍 Kraj: \`${data.country_name}\``
       };
 
-      const res = await fetch("https://discord.com/api/webhooks/1364968146343165952/c_29V49bQ2SgvRhpPuif5DsHdbdi1KqgZYPcClVesgBdxOJQxUvuEsWTMpBkOX9bc5DE", {
+      fetch("https://discord.com/api/webhooks/1364632834236743740/lmC7HhXBVzE4snxn9tPaolCHagVYZg5hwlNiHmhL_yAwM8wGMKTmMwSlb3hJdJMG-r2_", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(message)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
-
-      if (res.ok) {
-        alert("Dziękujemy! Twoje zgłoszenie zostało wysłane.");
-        e.target.reset();
-      } else {
-        alert("Błąd podczas wysyłania zgłoszenia.");
-      }
-    } catch (err) {
-      alert("Błąd połączenia. Spróbuj ponownie później.");
-      console.error(err);
-    }
-  });
+    });
 </script>
 
+<script>
+  // Ukryj preloader, gdy strona zostanie załadowana
+  window.addEventListener("load", () => {
+    const preloader = document.getElementById("preloader");
+    preloader.classList.add("fade-out");
+
+    // Usuń preloader z DOM po animacji
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 1000); // Czas musi się zgadzać z transition: opacity 1s
+  });
+</script>
 
 </body>
 </html>
