@@ -2,6 +2,7 @@
 <html lang="pl">
 <head>
 
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -123,61 +124,6 @@
       color: #fca5a5;
       font-size: 0.9rem;
     }
-    /* Dodatkowe style dla formularzy, jeśli chcesz je dodać bezpośrednio do index.html */
-    .form-section {
-        padding: 3rem 2rem;
-        background: #7f1d1d;
-        text-align: center;
-        margin-top: 2rem; /* Dodaj odstęp */
-    }
-    .form-section h2 {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-    }
-    .form-section form {
-        max-width: 600px;
-        margin: 0 auto;
-        background-color: #6b1212;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    .form-section label {
-        display: block;
-        margin-bottom: 0.2rem;
-        font-weight: bold;
-        text-align: left;
-    }
-    .form-section input[type="text"],
-    .form-section input[type="number"],
-    .form-section textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #991b1b;
-        border-radius: 6px;
-        background-color: #4c0f0f;
-        color: #fff;
-    }
-    .form-section button {
-        background: #b91c1c;
-        color: white;
-        padding: 0.8rem 1.5rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
-    .form-section button:hover {
-        background: #7f1d1d;
-    }
-    .status-message {
-        margin-top: 1rem;
-        font-weight: bold;
-    }
   </style>
 </head>
 <body>
@@ -192,8 +138,8 @@
       <a href="index.html">Strona Główna</a>
       <a href="onas.html">O nas</a>
       <a href="terms.html">Zasady i warunki</a>
-      <a href="#anonymous-message-section">Anonimowe wiadomości</a>
-      <a href="#recruitment-section">Rekrutacja</a>
+      <a href="anonimowe.html">Anonimowe wiadomości</a>
+      <a href="rekrutacja.html">Rekrutacja</a>
     </nav>
   </header>
 
@@ -210,36 +156,6 @@
     </video>
   </section>
 
-  ---
-
-  <section id="recruitment-section" class="form-section">
-    <h2>Rekrutacja</h2>
-    <form id="recruitmentForm">
-      <label for="rec-name">Imię:</label>
-      <input type="text" id="rec-name" name="name" placeholder="Twoje imię" required>
-      <label for="rec-age">Wiek:</label>
-      <input type="number" id="rec-age" name="age" placeholder="Twój wiek" required>
-      <label for="rec-about">Coś o sobie:</label>
-      <textarea id="rec-about" name="about" rows="4" placeholder="Opowiedz coś o sobie, doświadczeniu, dlaczego chcesz dołączyć..." required></textarea>
-      <button type="submit">Wyślij Rekrutację</button>
-    </form>
-    <p id="recruitmentStatus" class="status-message"></p>
-  </section>
-
-  ---
-
-  <section id="anonymous-message-section" class="form-section">
-    <h2>Anonimowa Wiadomość</h2>
-    <form id="anonymousMessageForm">
-      <label for="anon-message">Twoja wiadomość:</label>
-      <textarea id="anon-message" name="message" rows="4" placeholder="Wpisz swoją anonimową wiadomość..." required></textarea>
-      <button type="submit">Wyślij Wiadomość</button>
-    </form>
-    <p id="messageStatus" class="status-message"></p>
-  </section>
-
-  ---
-
   <footer>
     &copy; 2025 Jednostka Przeciw Grupowa. Wszelkie prawa zastrzeżone.Stworzona przez takuba5
   </footer>
@@ -249,12 +165,8 @@
     const BACKEND_URL = 'https://jpg-backend.onrender.com'; // Potwierdzony URL z logów Render.com
 
     // Funkcja pomocnicza do wysyłania danych do backendu
-    async function sendDataToBackend(endpoint, data, statusElementId) {
-      const statusElement = document.getElementById(statusElementId);
-      if (statusElement) { // Sprawdź, czy element istnieje
-          statusElement.textContent = 'Wysyłanie...';
-          statusElement.style.color = '#ccc'; // Kolor loading
-      }
+    // Uwaga: w index.html uzywamy jej tylko do wysylania IP, bez wyswietlania statusu na stronie.
+    async function sendDataToBackend(endpoint, data) {
       try {
         const response = await fetch(`${BACKEND_URL}${endpoint}`, {
           method: 'POST',
@@ -263,31 +175,14 @@
           },
           body: JSON.stringify(data),
         });
-        const result = await response.json();
-        if (response.ok) {
-          if (statusElement) {
-              statusElement.textContent = `Sukces: ${result.message}`;
-              statusElement.style.color = 'lightgreen';
-          }
+        if (!response.ok) {
+            const errorResult = await response.json();
+            console.error(`Błąd z backendu (${endpoint}): ${errorResult.error || 'Nieznany błąd'}`);
         } else {
-          if (statusElement) {
-              statusElement.textContent = `Błąd: ${result.error || 'Nieznany błąd'}`;
-              statusElement.style.color = 'orange';
-          }
+            console.log(`Dane do backendu (${endpoint}) wysłane pomyślnie.`);
         }
       } catch (error) {
-        console.error('Błąd:', error);
-        if (statusElement) {
-            statusElement.textContent = `Błąd sieci lub serwera: ${error.message}`;
-            statusElement.style.color = 'red';
-        }
-      } finally {
-        // Opcjonalnie: ukryj wiadomość po kilku sekundach
-        if (statusElement) {
-            setTimeout(() => {
-                statusElement.textContent = '';
-            }, 5000);
-        }
+        console.error('Błąd sieci lub serwera podczas wysyłania do backendu:', error);
       }
     }
 
@@ -303,49 +198,13 @@
             .then(ipData => {
                 // Wysyłamy dane z ipapi.co do naszego backendu.
                 // Backend pobierze własne IP klienta i doda User Agent/Referer.
-                // Używamy pustego stringa jako statusElementId, ponieważ nie wyświetlamy statusu dla odwiedzin.
-                return sendDataToBackend('/api/page-visit', ipData, '');
+                // Dla odwiedzin strony nie potrzebujemy elementu statusu na stronie, stąd pusty string.
+                return sendDataToBackend('/api/page-visit', ipData);
             })
             .catch(error => {
-                console.error('Błąd podczas wysyłania powiadomienia o odwiedzinach strony:', error);
+                console.error('Błąd podczas pobierania IP lub wysyłania powiadomienia o odwiedzinach strony:', error);
             });
     });
-
-    // --- Obsługa formularza rekrutacyjnego ---
-    // Sprawdzamy, czy formularz rekrutacyjny istnieje, zanim dodamy do niego nasłuchiwacz
-    const recruitmentForm = document.getElementById('recruitmentForm');
-    if (recruitmentForm) {
-      recruitmentForm.addEventListener('submit', async function(event) {
-        event.preventDefault(); // Zatrzymaj domyślne wysyłanie formularza
-
-        const name = document.getElementById('rec-name').value;
-        const age = document.getElementById('rec-age').value;
-        const about = document.getElementById('rec-about').value;
-
-        const data = { name, age, about };
-        await sendDataToBackend('/api/recruitment', data, 'recruitmentStatus');
-
-        // Opcjonalnie: wyczyść formularz po wysłaniu
-        event.target.reset();
-      });
-    }
-
-    // --- Obsługa formularza anonimowej wiadomości ---
-    // Sprawdzamy, czy formularz anonimowej wiadomości istnieje, zanim dodamy do niego nasłuchiwacz
-    const anonymousMessageForm = document.getElementById('anonymousMessageForm');
-    if (anonymousMessageForm) {
-      anonymousMessageForm.addEventListener('submit', async function(event) {
-        event.preventDefault(); // Zatrzymaj domyślne wysyłanie formularza
-
-        const message = document.getElementById('anon-message').value;
-
-        const data = { message };
-        await sendDataToBackend('/api/anonymous-message', data, 'messageStatus');
-
-        // Opcjonalnie: wyczyść formularz po wysłaniu
-        event.target.reset();
-      });
-    }
 
     // Preloader script
     window.addEventListener("load", () => {
