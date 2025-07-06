@@ -83,6 +83,12 @@
       background: #7f1d1d;
     }
 
+    .status-message { /* Dodany styl dla wiadomości statusu */
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: bold;
+    }
+
     footer {
       text-align: center;
       padding: 2rem;
@@ -100,8 +106,8 @@
       <a href="index.html">Strona Główna</a>
       <a href="onas.html">O nas</a>
       <a href="terms.html">Zasady i warunki</a>
-<a href="anonimowe.html">Anonimowe wiadomości</a>
-<a href="rekrutacja.html">Rekrutacja</a>
+      <a href="anonimowe.html">Anonimowe wiadomości</a>
+      <a href="rekrutacja.html">Rekrutacja</a>
     </nav>
   </header>
 
@@ -110,55 +116,84 @@
     <form id="anonForm">
       <label for="anonMessage">Twoja wiadomość (pozostaniesz anonimowy):</label>
       <textarea id="anonMessage" name="anonMessage" rows="6" placeholder="Napisz tutaj..." required></textarea>
-
       <button type="submit">Wyślij anonimowo</button>
     </form>
-  </section>
+    <p id="messageStatus" class="status-message"></p> </section>
 
   <footer>
     &copy; 2025 Jednostka Przeciw Grupowa. Wszelkie prawa zastrzeżone.
   </footer>
 
-<script>
-  document.getElementById("anonForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+  <script>
+    // KLUCZOWE: Upewnij się, że to jest PRAWIDŁOWY URL Twojego backendu z Render.com!
+    const BACKEND_URL = 'https://jpg-backend.onrender.com'; // Użyj swojego URL z Render.com
 
-    const messageText = document.getElementById("anonMessage").value.trim();
-    if (!messageText) {
-      alert("Wpisz wiadomość przed wysłaniem.");
-      return;
-    }
-
-    try {
-      // Pobieranie IP
-      const ipRes = await fetch("https://api.ipify.org?format=json");
-      const ipData = await ipRes.json();
-      const ip = ipData.ip;
-
-      // Przygotowanie wiadomości
-      const payload = {
-        content: `📨 **Nowa anonimowa wiadomość:**\n${messageText}\n\n🌐 IP użytkownika: \`${ip}\``
-      };
-
-      const res = await fetch("https://discord.com/api/webhooks/1366442960643690617/bDTJ3sm0bAB9-1wl77j-HRfNA5ZrueSFvyDzHYhxgulFvno_5v4wC4DHOYHKsE0vxXTS", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      if (res.ok) {
-        alert("Wiadomość została wysłana anonimowo.");
-        document.getElementById("anonForm").reset();
-      } else {
-        alert("Błąd podczas wysyłania wiadomości.");
+    // Funkcja pomocnicza do wysyłania danych do backendu (podobna jak w index.html)
+    async function sendDataToBackend(endpoint, data, statusElementId) {
+      const statusElement = document.getElementById(statusElementId);
+      if (statusElement) {
+          statusElement.textContent = 'Wysyłanie...';
+          statusElement.style.color = '#ccc'; // Kolor dla statusu ładowania
       }
-
-    } catch (err) {
-      console.error(err);
-      alert("Wystąpił błąd. Spróbuj ponownie później.");
+      try {
+        const response = await fetch(`${BACKEND_URL}${endpoint}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        if (response.ok) {
+          if (statusElement) {
+              statusElement.textContent = `Sukces: ${result.message}`;
+              statusElement.style.color = 'lightgreen';
+          }
+        } else {
+          if (statusElement) {
+              statusElement.textContent = `Błąd: ${result.error || 'Nieznany błąd'}`;
+              statusElement.style.color = 'orange';
+          }
+        }
+      } catch (error) {
+        console.error('Błąd:', error);
+        if (statusElement) {
+            statusElement.textContent = `Błąd sieci lub serwera: ${error.message}`;
+            statusElement.style.color = 'red';
+        }
+      } finally {
+        // Opcjonalnie: ukryj wiadomość statusu po kilku sekundach
+        if (statusElement) {
+            setTimeout(() => {
+                statusElement.textContent = '';
+            }, 5000);
+        }
+      }
     }
-  });
-</script>
+
+    // --- Obsługa formularza anonimowej wiadomości ---
+    document.addEventListener("DOMContentLoaded", () => {
+      const anonForm = document.getElementById("anonForm");
+      if (anonForm) { // Sprawdzamy czy formularz istnieje
+        anonForm.addEventListener("submit", async (e) => {
+          e.preventDefault(); // Zatrzymaj domyślne wysyłanie formularza
+
+          const messageText = document.getElementById("anonMessage").value.trim();
+          if (!messageText) {
+            alert("Wpisz wiadomość przed wysłaniem.");
+            return;
+          }
+
+          const data = { message: messageText };
+          // Wysyłamy dane do backendu, a nie bezpośrednio do Discorda
+          await sendDataToBackend('/api/anonymous-message', data, 'messageStatus');
+
+          // Opcjonalnie: Wyczyść formularz po wysłaniu
+          e.target.reset();
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
