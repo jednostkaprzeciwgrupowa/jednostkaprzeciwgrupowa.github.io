@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jednostka Przeciw Grupowa</title>
+  <title>Rekrutacja - Jednostka Przeciw Grupowa</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,8 +15,7 @@
     }
 
     #preloader {
-      position: fixed;
-      top: 0; left: 0;
+      position: fixed; top: 0; left: 0;
       width: 100%; height: 100%;
       background: #7f1d1d;
       display: flex;
@@ -60,51 +59,6 @@
       font-weight: bold;
     }
 
-    .hero {
-      text-align: center;
-      padding: 5rem 2rem;
-      background: #7f1d1d;
-    }
-
-    .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-    }
-
-    .hero a.button {
-      background: #b91c1c;
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s ease;
-      box-shadow: 0 0 10px #f87171;
-    }
-
-    .hero a.button:hover {
-      background: #7f1d1d;
-    }
-
-    .video-section {
-      padding: 3rem 2rem;
-      text-align: center;
-      background: #6b1212;
-    }
-
-    .video-section iframe {
-      width: 90vw;
-      max-width: 1200px;
-      height: 500px;
-      border: none;
-      border-radius: 12px;
-    }
-
     .rekrutacja-section {
       background: #991b1b;
       padding: 3rem 2rem;
@@ -127,6 +81,7 @@
     }
 
     .rekrutacja-section form input[type="text"],
+    .rekrutacja-section form input[type="number"], /* Dodane dla spójności, jeśli byś chciał mieć wiek jako input type number */
     .rekrutacja-section form textarea {
       width: 100%;
       padding: 0.7rem;
@@ -175,6 +130,12 @@
       background: #7f1d1d;
     }
 
+    .status-message { /* Dodany styl dla wiadomości statusu */
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: bold;
+    }
+
     footer {
       text-align: center;
       padding: 2rem;
@@ -193,11 +154,11 @@
   <header>
     <h1>Jednostka Przeciw Grupowa</h1>
     <nav>
-     <a href="index.html">Strona Główna</a>
+      <a href="index.html">Strona Główna</a>
       <a href="onas.html">O nas</a>
       <a href="terms.html">Zasady i warunki</a>
-<a href="anonimowe.html">Anonimowe wiadomości</a>
-<a href="rekrutacja.html">Rekrutacja</a>
+      <a href="anonimowe.html">Anonimowe wiadomości</a>
+      <a href="rekrutacja.html">Rekrutacja</a>
     </nav>
   </header>
 
@@ -207,103 +168,118 @@
     <a href="https://whatsapp.com/channel/0029VbAbfCwId7nH2mySZj3l" class="button" target="_blank" rel="noopener noreferrer">👉 Zobacz nas na WhatsApp 💬</a>
   </section>
 
-  
   <section class="video-section">
     <h2>Zobacz, co robimy</h2>
     <video controls width="90%" style="border-radius: 12px;">
-  <source src="Wideo.mp4" type="video/mp4">
+      <source src="Wideo.mp4" type="video/mp4">
     </video>
+  </section>
 
   <section class="rekrutacja-section">
     <h2>Zgłoś się do Jednostki</h2>
     <form id="rekrutacjaForm">
-      <label for="name">Twoje imię lub nick:</label>
-      <input type="text" id="name" name="name" required>
-
-      <label for="contact">Jak się z Tobą skontaktować? (np. Discord, tel.):</label>
-      <input type="text" id="contact" name="contact" required>
-
-      <label for="reason">Dlaczego chcesz dołączyć do Jednostki Przeciwgrupowej?</label>
-      <textarea id="reason" name="reason" rows="4" required></textarea>
-
-      <label for="description">Co jeszcze powinniśmy o Tobie wiedzieć?</label>
-      <textarea id="description" name="description" rows="3"></textarea>
-
-      <div class="legal">
-        <input type="checkbox" id="zgoda" name="zgoda" required>
-        <label for="zgoda">Wyrażam zgodę na przetwarzanie danych zgodnie z <a href="terms.html">regulaminem</a>.</label>
+      <label for="rec-name">Twoje imię lub nick:</label>
+      <input type="text" id="rec-name" name="name" required> <label for="rec-contact">Jak się z Tobą skontaktować? (np. Discord, tel.):</label>
+      <input type="text" id="rec-contact" name="contact" required> <label for="rec-reason">Dlaczego chcesz dołączyć do Jednostki Przeciwgrupowej?</label>
+      <textarea id="rec-reason" name="reason" rows="4" required></textarea> <label for="rec-description">Co jeszcze powinniśmy o Tobie wiedzieć?</label>
+      <textarea id="rec-description" name="description" rows="3"></textarea> <div class="legal">
+        <input type="checkbox" id="rec-zgoda" name="zgoda" required> <label for="rec-zgoda">Wyrażam zgodę na przetwarzanie danych zgodnie z <a href="terms.html">regulaminem</a>.</label>
       </div>
 
       <button type="submit">Wyślij zgłoszenie</button>
     </form>
-  </section>
+    <p id="recruitmentStatus" class="status-message"></p> </section>
 
   <footer>
     &copy; 2025 Jednostka Przeciw Grupowa. Wszelkie prawa zastrzeżone.
   </footer>
 
   <script>
+    // KLUCZOWE: Upewnij się, że to jest PRAWIDŁOWY URL Twojego backendu z Render.com!
+    const BACKEND_URL = 'https://jpg-backend.onrender.com'; // Użyj swojego URL z Render.com
+
+    // Funkcja pomocnicza do wysyłania danych do backendu (podobna jak w anonimowe.html)
+    async function sendDataToBackend(endpoint, data, statusElementId) {
+      const statusElement = document.getElementById(statusElementId);
+      if (statusElement) {
+          statusElement.textContent = 'Wysyłanie...';
+          statusElement.style.color = '#ccc'; // Kolor dla statusu ładowania
+      }
+      try {
+        const response = await fetch(`${BACKEND_URL}${endpoint}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        if (response.ok) {
+          if (statusElement) {
+              statusElement.textContent = `Sukces: ${result.message}`;
+              statusElement.style.color = 'lightgreen';
+          }
+        } else {
+          if (statusElement) {
+              statusElement.textContent = `Błąd: ${result.error || 'Nieznany błąd'}`;
+              statusElement.style.color = 'orange';
+          }
+        }
+      } catch (error) {
+        console.error('Błąd:', error);
+        if (statusElement) {
+            statusElement.textContent = `Błąd sieci lub serwera: ${error.message}`;
+            statusElement.style.color = 'red';
+        }
+      } finally {
+        // Opcjonalnie: ukryj wiadomość statusu po kilku sekundach
+        if (statusElement) {
+            setTimeout(() => {
+                statusElement.textContent = '';
+            }, 5000);
+        }
+      }
+    }
+
+    // --- Obsługa formularza rekrutacyjnego ---
+    document.addEventListener("DOMContentLoaded", () => {
+      const rekrutacjaForm = document.getElementById("rekrutacjaForm");
+      if (rekrutacjaForm) { // Sprawdzamy czy formularz istnieje
+        rekrutacjaForm.addEventListener("submit", async (e) => {
+          e.preventDefault(); // Zatrzymaj domyślne wysyłanie formularza
+
+          const name = document.getElementById("rec-name").value.trim();
+          const contact = document.getElementById("rec-contact").value.trim();
+          const reason = document.getElementById("rec-reason").value.trim();
+          const description = document.getElementById("rec-description").value.trim();
+          const zgoda = document.getElementById("rec-zgoda").checked;
+
+          if (!zgoda) {
+            alert("Musisz wyrazić zgodę na przetwarzanie danych zgodnie z regulaminem.");
+            return;
+          }
+
+          const data = { name, contact, reason, description }; // Wysłanie danych do backendu
+          // Wysyłamy dane do backendu, a nie bezpośrednio do Discorda
+          await sendDataToBackend('/api/recruitment', data, 'recruitmentStatus');
+
+          // Opcjonalnie: Wyczyść formularz po wysłaniu
+          e.target.reset();
+        });
+      }
+    });
+
+    // Preloader script (Jeśli chcesz, aby preloader działał również na tej stronie)
     window.addEventListener("load", () => {
       const preloader = document.getElementById("preloader");
-      setTimeout(() => {
+      if (preloader) { // Upewnij się, że preloader istnieje na tej stronie
         preloader.classList.add("fade-out");
-      }, 1500);
+        setTimeout(() => {
+          preloader.style.display = "none";
+        }, 1000); // Czas musi się zgadzać z transition: opacity 1s
+      }
     });
   </script>
-
-<script>
-  document.getElementById("rekrutacjaForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const data = {
-      name: e.target.name.value.trim(),
-      contact: e.target.contact.value.trim(),
-      reason: e.target.reason.value.trim(),
-      description: e.target.description.value.trim(),
-      zgoda: e.target.zgoda.checked,
-    };
-
-    if (!data.zgoda) {
-      alert("Musisz wyrazić zgodę na przetwarzanie danych.");
-      return;
-    }
-
-    try {
-      // Pobierz IP użytkownika
-      const ipResponse = await fetch("https://api.ipify.org?format=json");
-      const ipData = await ipResponse.json();
-      const ip = ipData.ip || "Nieznane";
-
-      const message = {
-        content: "**Nowe zgłoszenie do Jednostki Przeciw Grupowej**\n" +
-                 `**Nick:** ${data.name}\n` +
-                 `**Kontakt:** ${data.contact}\n` +
-                 `**Dlaczego chce dołączyć:** ${data.reason}\n` +
-                 `**Dodatkowe info:** ${data.description || "Brak"}\n` +
-                 `**IP:** ${ip}`
-      };
-
-      const res = await fetch("https://discord.com/api/webhooks/1366442960643690617/bDTJ3sm0bAB9-1wl77j-HRfNA5ZrueSFvyDzHYhxgulFvno_5v4wC4DHOYHKsE0vxXTS", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(message)
-      });
-
-      if (res.ok) {
-        alert("Dziękujemy! Twoje zgłoszenie zostało wysłane.");
-        e.target.reset();
-      } else {
-        alert("Błąd podczas wysyłania zgłoszenia.");
-      }
-    } catch (err) {
-      alert("Błąd połączenia. Spróbuj ponownie później.");
-      console.error(err);
-    }
-  });
-</script>
-
 
 </body>
 </html>
